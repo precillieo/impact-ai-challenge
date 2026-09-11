@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#071433" />
+    <meta
+      name="description"
+      content="IMPACT '26 Tech & AI Challenge — find the bug, spot AI tricks, privacy basics, puzzles, and climb the leaderboard."
+    />
+    <title>IMPACT '26 · Tech & AI Challenge</title>
+    <link rel="stylesheet" href="css/styles.css?v=3" />
+  </head>
+  <body>
+    <div class="arc" aria-hidden="true"></div>
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-kicker">IMPACT '26 · The Advantage Summit</div>
+          <h1 class="brand-title">Tech & AI Challenge</h1>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="icon-btn" id="btn-sound" aria-pressed="true" title="Mute sounds">
+            🔊
+          </button>
+          <button type="button" class="icon-btn" id="btn-reset-lb" title="Reset leaderboard">
+            🧹
+          </button>
+        </div>
+      </header>
+
+      <!-- HOME -->
+      <section id="screen-home" class="screen active">
+        <div class="hero-card">
+          <h2>Play. Learn. <span>Level up.</span></h2>
+          <p class="lead">
+            Pick a mode, then crush 5 rounds. Same name = your score keeps climbing on this device.
+          </p>
+
+          <div class="form-row" style="margin-bottom: 8px">
+            <label id="mode-label">Choose your challenge</label>
+          </div>
+          <div class="chips" id="mode-chips" role="group" aria-labelledby="mode-label">
+            <button type="button" class="chip selected" data-mode="debug">🐛 Find the Bug</button>
+            <button type="button" class="chip" data-mode="ai">🧠 AI Thinker</button>
+            <button type="button" class="chip" data-mode="privacy">🔒 Privacy</button>
+            <button type="button" class="chip" data-mode="general">💡 AI Knowledge</button>
+            <button type="button" class="chip" data-mode="puzzle">🧩 Puzzle</button>
+          </div>
+          <p class="mode-hint">Selected: <strong id="mode-label-text">Find the Bug</strong> — all 5 questions from this track</p>
+
+          <div class="form-row">
+            <label for="player-name">Player name</label>
+            <input
+              id="player-name"
+              type="text"
+              maxlength="24"
+              placeholder="e.g. Ada, Tunde, Maya…"
+              autocomplete="nickname"
+              enterkeyhint="go"
+            />
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="btn-start">Start challenge ▶</button>
+          </div>
+
+          <div class="stats-mini">
+            <div class="stat">
+              <b>5</b>
+              <span>questions / run</span>
+            </div>
+            <div class="stat">
+              <b>35s</b>
+              <span>per question</span>
+            </div>
+            <div class="stat">
+              <b>+150</b>
+              <span>max pts / Q</span>
+            </div>
+          </div>
+
+          <div class="leaderboard">
+            <h3>🏆 Leaderboard (this device)</h3>
+            <ul class="lb-list" id="lb-home"></ul>
+          </div>
+
+          <div class="resources">
+            <strong>Booth tip:</strong> After you play, scan our QR codes for the Data Science roadmap,
+            AI Engineering roadmap, Inference Engineering roadmap, and Create Resume guide.
+          </div>
+        </div>
+      </section>
+
+      <!-- PLAY -->
+      <section id="screen-play" class="screen">
+        <div class="hud">
+          <div class="hud-top">
+            <button type="button" class="btn-exit" id="btn-exit" title="Leave without saving score">
+              ✕ Exit
+            </button>
+            <div class="hud-meta">
+              <span class="pill" id="mode-pill">🐛 Find the Bug</span>
+              <span class="pill" id="q-num">Q 1 / 5</span>
+              <span class="pill" id="score-pill">⭐ 0</span>
+              <span class="pill timer" id="timer-pill">⏱ 35s</span>
+            </div>
+          </div>
+          <div class="progress-wrap" aria-hidden="true">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="badge" id="q-badge">Challenge</div>
+          <p class="q-prompt" id="q-prompt"></p>
+          <pre class="code-block" id="q-code" style="display: none"></pre>
+          <div class="choices" id="choices"></div>
+
+          <div class="feedback" id="feedback">
+            <h3 id="feedback-title"></h3>
+            <p id="feedback-text"></p>
+            <div class="feedback-actions">
+              <button type="button" class="btn btn-primary" id="btn-next">Next question →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULT -->
+      <section id="screen-result" class="screen">
+        <div class="hero-card">
+          <div class="brand-kicker">Run complete</div>
+          <div class="stars" id="result-stars">⭐⭐⭐</div>
+          <div class="result-score" id="result-score">0</div>
+          <p class="result-sub" id="result-sub"></p>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-primary" id="btn-again">Play again ▶</button>
+            <button type="button" class="btn btn-ghost" id="btn-home">Home</button>
+          </div>
+
+          <div class="leaderboard">
+            <h3>🏆 Leaderboard</h3>
+            <ul class="lb-list" id="lb-result"></ul>
+          </div>
+
+          <div class="resources">
+            <strong>Keep going:</strong> Ask the Tech &amp; AI booth team for roadmap QR codes, resume
+            tips, and live career advice from our speakers.
+          </div>
+        </div>
+      </section>
+
+      <p class="footer-note">IMPACT '26 · Peniel — The Advantage Summit · Tech &amp; AI Booth</p>
+    </div>
+
+    <script src="js/questions.js?v=3"></script>
+    <script src="js/sounds.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
+  </body>
+</html>
